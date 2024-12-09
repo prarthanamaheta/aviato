@@ -150,3 +150,48 @@ pip install -r requirements.txt
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
+### 5. Access the API documentation:
+Open http://localhost:8000/redoc in your browser.
+
+## Testing
+
+You can test the API using a tool like Postman or `curl`.
+
+### Create User:
+```arduino
+POST http://localhost:8000/add_users
+```
+
+### Get Users:
+```arduino
+GET http://localhost:8000/get_users
+```
+
+### Update User:
+```arduino
+PATCH http://localhost:8000/update_users
+```
+
+### DELETE User:
+```arduino
+DELETE http://localhost:8000/delete_users?user_id=<user_id>
+```
+
+
+### Send Invitation:
+```arduino
+GET http://localhost:8000/send-invite
+```
+
+## License
+
+This project is licensed under the MIT License.
+
+### Explanation:
+- The `README.md` file provides descriptions for each of the endpoints in your FastAPI application.
+- It also includes the setup instructions for configuring the environment variables and running the application.
+- The environment variables are listed in a clear format with instructions to place them in a `.env` file.
+- It includes instructions on how to run the application, access the API documentation, and test the endpoints.
+
+Let me know if you need any further customizations!
+
