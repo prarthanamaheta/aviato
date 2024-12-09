@@ -7,6 +7,7 @@ load_dotenv(dotenv_path='/.env')
 def get_firestore_client():
     """Initialize Firestore client"""
     credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    print(credentials_path)
     if not credentials_path:
         raise ValueError("GOOGLE_APPLICATION_CREDENTIALS is not set or points to an invalid file.")
 
