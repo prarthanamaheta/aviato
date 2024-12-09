@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import endpoints
 
-app = FastAPI(title="Aviato Users Management API", docs_url="/docs", redoc_url="/redoc")
+app = FastAPI(title="Aviato User Management API", docs_url="/docs", redoc_url="/redoc")
 
 # CORS Configuration
 app.add_middleware(
@@ -15,4 +15,3 @@ app.add_middleware(
 
 # Include Routers
 app.include_router(endpoints.router, prefix="/users", tags=["Users"])
-app.include_router(endpoints.router, prefix="/docs", tags=["Docs"])
