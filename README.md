@@ -1,13 +1,37 @@
 # Aviato Users Management API
 
-This FastAPI application provides endpoints for managing users, including creating, updating, retrieving, and deleting users. Additionally, it offers an endpoint for sending an email invitation with a link to the API documentation and a GitHub repository.
+## **User Management**:
+- Create, update, retrieve, and delete user data dynamically without relying on predefined models.
+- Data is stored and retrieved in real-time using **Google Firestore**, offering high scalability and performance.
+- Dynamic structure allows storing flexible user data tailored to specific project needs.
+
+---
+
+## **Dynamic API Structure**:
+- The endpoints adapt to the data being passed, enabling support for dynamic fields and custom data structures.
+- Built to handle various use cases without requiring rigid database schema definitions.
+
+---
+
+## **Email Invitation**:
+- Send customizable email invitations with a professional HTML template.
+- Emails include:
+  - A link to the API documentation hosted on **ReDoc**.
+  - A link to the **GitHub repository** for accessing the source code.
+- Supports multiple recipients and attachments dynamically, making it ideal for sharing documentation or project details.
+
+---
+
+## **Cloud Integration**:
+- Deployed on an **AWS EC2 instance** with reverse proxy setup for efficient port forwarding.
+- Powered by **Google Firestore** for storing and querying user data seamlessly.
+
 
 ## Endpoints
 
 ### 1. **Create User**
 - **URL**: `/add_users`
 - **Method**: `POST`
-- **Request Body**: `User` (Pydantic Model)
 
 Creates a new user in the Firestore database.
 

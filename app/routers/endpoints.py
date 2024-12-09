@@ -1,41 +1,63 @@
 import os
-
-from fastapi import APIRouter, HTTPException
-from app.database.models import User, UpdateUser
-from app.helpers.firestore_utils import FirestoreService
 from app.helpers.email_utils import send_email
+from fastapi import APIRouter, HTTPException
+from typing import  Optional, Dict
+from app.helpers.firestore_utils import FirestoreService
 
 router = APIRouter()
 firestore_service = FirestoreService()
 
 
-# Create user
-@router.post("/add_users", response_model=User)
-def add_user(user: User):
-    # Convert the Pydantic model to a dictionary for Firestore insertion
-    user_data = user.dict()  # This converts the Pydantic model to a dictionary
+# Add User Endpoint
+@router.post("/add_users")
+def add_user(user_data: Dict):
+    """
+    Create a new user with arbitrary data.
+    """
+    if "project_id" not in user_data:
+        raise HTTPException(status_code=400, detail="Project ID is required.")
     return firestore_service.create_user(user_data)
 
-
-# Get all users
+# Get All Users Endpoint
 @router.get("/get_users")
-def get_users():
+def get_users(project_id: Optional[str] = None):
+    """
+    Retrieve all users or filter by project_id.
+    """
+    if project_id:
+        return firestore_service.get_users_by_project(project_id)
     return firestore_service.get_users()
 
-
-# Update user details
+# Update User Endpoint
 @router.patch("/update_users")
-def update_user(user: UpdateUser):
-    if not user.id:
+def update_user(user_id: str, user_data: Dict):
+    """
+    Update user details with arbitrary data.
+    """
+    if not user_id:
         raise HTTPException(status_code=400, detail="User ID is required for updating.")
-    return firestore_service.update_user(user.id, user.dict())
+    if "project_id" in user_data:
+        raise HTTPException(
+            status_code=400, detail="Project ID cannot be updated directly."
+        )
+    return firestore_service.update_user(user_id, user_data)
 
-
-# Delete user by ID
+# Delete User Endpoint
 @router.delete("/delete_users")
-def delete_user(user_id: str):
-    return firestore_service.delete_user(user_id)
+def delete_user(user_id: str, project_id: Optional[str] = None):
+    """
+    Delete a user by ID. Optionally ensure they belong to a specific project.
+    """
+    user = firestore_service.get_user_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found.")
 
+    if project_id and user.get("project_id") != project_id:
+        raise HTTPException(
+            status_code=403, detail="User does not belong to the specified project."
+        )
+
+    return firestore_service.delete_user(user_id)
 
 @router.get("/send-invite")
 def send_invite():
