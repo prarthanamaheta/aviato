@@ -2,7 +2,7 @@ import os
 from google.cloud import firestore
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path='/home/prarthana.maheta@brainvire.com/Desktop/Aviato/var.env')
+load_dotenv(dotenv_path='/.env')
 
 def get_firestore_client():
     """Initialize Firestore client"""
